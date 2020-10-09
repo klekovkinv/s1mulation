@@ -98,7 +98,7 @@ class Space:
             reward = 1
             
         
-        return self.state, reward, done
+        return numpy.array(self.state), reward, done, {}
         
         
     
@@ -116,6 +116,4 @@ class Space:
         self.state[self.agent_place[0]][self.agent_place[1]] = 1
         self.state[self.food_place[0]][self.food_place[1]] = 0.5
         
-        return self.state
-
-    
+        return numpy.array(self.state)
