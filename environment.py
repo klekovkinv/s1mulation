@@ -3,6 +3,7 @@ Creaete Class for environment
 """
 import random
 import numpy
+from functools import reduce
 
 class Space:
     """
@@ -98,7 +99,7 @@ class Space:
             reward = 1
             
         
-        return numpy.array(self.state), reward, done, {}
+        return numpy.array(reduce(lambda a, b: a + b, self.state)), reward, done, {}
         
         
     
@@ -116,4 +117,4 @@ class Space:
         self.state[self.agent_place[0]][self.agent_place[1]] = 1
         self.state[self.food_place[0]][self.food_place[1]] = 0.5
         
-        return numpy.array(self.state)
+        return numpy.array(reduce(lambda a, b: a + b, self.state))
