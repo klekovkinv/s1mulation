@@ -34,8 +34,10 @@ class Space:
         self.width = width
         
         self.action_space = [0, 1, 2, 3]
+        self.agent_start_place = None
         self.agent_place = None # (row, colmn)
         self.food_place = None
+        self.steps_from_start = None
         
         self.state = None
         print('Evn initializing')
@@ -71,7 +73,8 @@ class Space:
         """
         if action not in self.action_space:
             raise Exception("Unsupported action")
-            
+        
+        self.steps_from_start += 1
         state = self.state
         done = False
         reward = 0
@@ -96,7 +99,8 @@ class Space:
         
         if self.agent_place == self.food_place:
             done = True
-            reward = 1
+            reward = (abs(self.agent_start_place[0] - self.food_place[0]) + 
+                      abs(self.agent_start_place[1] - self.food_place[1])) / self.steps_from_start
             
         
         return numpy.array(reduce(lambda a, b: a + b, self.state)), reward, done, {}
@@ -112,9 +116,13 @@ class Space:
             state
         """
         self.state = [([0] * self.width) for i in range(self.height)]
-        self.agent_place = (0, 0)
+        self.agent_start_place = (0, 0)
+        self.agent_place = self.agent_start_place
         self.food_place = self.get_random_food()
         self.state[self.agent_place[0]][self.agent_place[1]] = 1
         self.state[self.food_place[0]][self.food_place[1]] = 0.5
         
+        self.steps_from_start = 0
+        
         return numpy.array(reduce(lambda a, b: a + b, self.state))
+        
