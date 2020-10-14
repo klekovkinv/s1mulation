@@ -79,6 +79,7 @@ class Space:
         done = False
         reward = 0
         
+        
         if action == 0:    # left
             
             if self.agent_place[1] != 0:
@@ -101,7 +102,10 @@ class Space:
             done = True
             reward = (abs(self.agent_start_place[0] - self.food_place[0]) + 
                       abs(self.agent_start_place[1] - self.food_place[1])) / self.steps_from_start
-            
+        
+        if (self.steps_from_start > self.width * self.height * 2) and (done == False):
+            done = True
+            reward = 0.
         
         return numpy.array(reduce(lambda a, b: a + b, self.state)), reward, done, {}
         
