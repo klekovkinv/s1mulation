@@ -55,6 +55,15 @@ class Space:
                 
         return (food_height, food_width)
     
+    def get_random_first_agent_place(self):
+        """
+        return random cell
+        """
+        agent_height = random.randint(0, self.height - 1)
+        agent_width = random.randint(0, self.width - 1)
+    
+        return (agent_height, agent_width)
+    
     def move(self, new_agent_place):
         """
         Clear old and create new position if the agent
@@ -120,7 +129,7 @@ class Space:
             state
         """
         self.state = [([0] * self.width) for i in range(self.height)]
-        self.agent_start_place = (0, 0)
+        self.agent_start_place = self.get_random_first_agent_place()
         self.agent_place = self.agent_start_place
         self.food_place = self.get_random_food()
         self.state[self.agent_place[0]][self.agent_place[1]] = 1
